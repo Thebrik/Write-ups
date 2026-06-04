@@ -118,7 +118,7 @@ Use try-catch for exception handling
 Use menu is not required
 Write all code inside Program.cs
 
-'''csharp
+```csharp
 
 // Import required namespace for basic input/output operations
 using System;
@@ -271,5 +271,5 @@ class Program
         library.ShowAllBooks();
     }
 }
-'''
+```
 
