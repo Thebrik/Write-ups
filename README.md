@@ -117,3 +117,156 @@ Use InvalidOperationException for exceeding book limit
 Use try-catch for exception handling
 Use menu is not required
 Write all code inside Program.cs
+
+
+// Import required namespace for basic input/output operations
+using System;
+
+// Import namespace for using List collection
+using System.Collections.Generic;
+
+// Library class to manage books
+class Library
+{
+    // List to store all book names
+    public List<string> bookList = new List<string>();
+
+    // Maximum number of books allowed in library
+    public const int TotalBooks = 5;
+
+    // Method to add a book into the library
+    public void AddBook(string bookName)
+    {
+        // Check if book name is null, empty, or contains only spaces
+        if (string.IsNullOrWhiteSpace(bookName))
+        {
+            // Throw exception if book name is invalid
+            throw new ArgumentException("Book name cannot be null, empty or whitespace");
+        }
+
+        // Check if maximum book limit has been reached
+        if (bookList.Count >= TotalBooks)
+        {
+            // Throw exception if more than 5 books are added
+            throw new InvalidOperationException("Cannot add more than 5 books");
+        }
+
+        // Add the book to the list after removing extra spaces
+        bookList.Add(bookName.Trim());
+
+        // Display success message
+        Console.WriteLine($"Book added successfully: {bookName.Trim()}");
+    }
+
+    // Method to display all books
+    public void ShowAllBooks()
+    {
+        // Check if library has no books
+        if (bookList.Count == 0)
+        {
+            // Display message if library is empty
+            Console.WriteLine("No books available in the library");
+
+            // Exit method
+            return;
+        }
+
+        // Display heading
+        Console.WriteLine("All Books:");
+
+        // Loop through each book in the list
+        foreach (string book in bookList)
+        {
+            // Display current book name
+            Console.WriteLine(book);
+        }
+    }
+
+    // Method to search for a book
+    public void FindBook(string bookName)
+    {
+        // Check if the book exists in the list
+        if (bookList.Contains(bookName))
+        {
+            // Display found message
+            Console.WriteLine($"Book Found: {bookName}");
+        }
+        else
+        {
+            // Display not found message
+            Console.WriteLine("Book Not Found");
+        }
+    }
+
+    // Method to delete a book
+    public void DeleteBook(string bookName)
+    {
+        // Remove() returns true if book is found and deleted
+        if (bookList.Remove(bookName))
+        {
+            // Display success message
+            Console.WriteLine("Book deleted successfully");
+        }
+        else
+        {
+            // Display message if book does not exist
+            Console.WriteLine("Book not found, cannot delete");
+        }
+    }
+}
+
+// Main program class
+class Program
+{
+    // Starting point of the application
+    static void Main(string[] args)
+    {
+        // Create object of Library class
+        Library library = new Library();
+
+        // Read comma-separated book names from user
+        string inputBooks = Console.ReadLine();
+
+        // Read book name to search
+        string searchBook = Console.ReadLine();
+
+        // Read book name to delete
+        string deleteBook = Console.ReadLine();
+
+        // Split input string into array using comma separator
+        string[] books = inputBooks.Split(',');
+
+        // Loop through each book name
+        foreach (string book in books)
+        {
+            try
+            {
+                // Add book to library after removing extra spaces
+                library.AddBook(book.Trim());
+            }
+            catch (Exception ex)
+            {
+                // Display exception message if error occurs
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        // Print blank line
+        Console.WriteLine();
+
+        // Search for the required book
+        library.FindBook(searchBook);
+
+        // Print blank line
+        Console.WriteLine();
+
+        // Delete the required book
+        library.DeleteBook(deleteBook);
+
+        // Print blank line
+        Console.WriteLine();
+
+        // Display all remaining books
+        library.ShowAllBooks();
+    }
+}
